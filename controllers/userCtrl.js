@@ -146,7 +146,13 @@ const userCtrl = {
 
     getUsersAllSubscribersInfor: async (req, res) => {
         try {
-            const users = await Users.find({ $or: [{ role: "subscriber" }, { role: "sub-admin" }] }).select('-password')
+            const users = await Users.find({
+                $and: [
+                    { role: { $ne: "admin" } },
+                    { _id: { $ne: req.user.id } }
+                ]
+            }
+            ).select('-password')
             res.json(users)
         } catch (err) {
             return res.status(500).json({ message: err.message })

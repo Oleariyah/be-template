@@ -1,7 +1,17 @@
 const userPermissions = {
-	canManageUsers: (role) => (
-		role !== "admin" || role !== "sub-admin"
-	)
+	canManageUsers: (role) => {
+		return (
+			role === "admin" ||
+			role === "sub-admin"
+		)
+	},
+
+	canUpdateAndDeleteUser: (userRole, selectedUserRole) => {
+		return (
+			userRole === "admin" ||
+			selectedUserRole === "subscriber"
+		)
+	}
 }
 
 module.exports = userPermissions;
