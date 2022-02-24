@@ -170,10 +170,10 @@ const userCtrl = {
 
     updateUser: async (req, res) => {
         try {
-            const { name, avatar } = req.body
+            const { name } = req.body
             const user = await Users.findOneAndUpdate(
                 { _id: req.user.id },
-                { name, avatar },
+                { name },
                 { returnOriginal: false }
             )
             res.json({ user, message: "Update Success!" })

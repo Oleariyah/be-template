@@ -1,4 +1,5 @@
-const cloudinary = require('cloudinary')
+const cloudinary = require('cloudinary');
+const Users = require('../models/userModel');
 const fs = require('fs')
 
 cloudinary.config({
@@ -10,7 +11,7 @@ cloudinary.config({
 
 
 const uploadCtrl = {
-    uploadAvatar: (req, res) => {
+    uploadAvatar: async (req, res) => {
         try {
             const file = req.files.file;
 
@@ -19,6 +20,7 @@ const uploadCtrl = {
             }, async (err, result) => {
                 if (err) throw err;
                 removeTmp(file.tempFilePath)
+                await Users.findOneAndUpdate({ _id: req.user.id }, { avatar: result.secure_url })
                 res.json({ url: result.secure_url })
             })
 
